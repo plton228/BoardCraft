@@ -8,3 +8,9 @@ server/.env
 .DS_Store
 .idea/
 .vscode/
+
+# College theory and other files (exclude from git)
+теорія для 7 практичної/
+тереоритичні матеріали для виконання 7 практичної/
+Інструкція з оформлення звітів 2026 Веб.docx
+Звіт_Практична_Робота_7_Павліченко.docx
