@@ -44,18 +44,20 @@ export const WhiteboardCanvas: React.FC<WhiteboardCanvasProps> = ({
   const [resizeStartSize, setResizeStartSize] = useState({ width: 0, height: 0 });
   const [resizeStartPos, setResizeStartPos] = useState({ x: 0, y: 0 });
 
-  // Redraw canvas lines whenever elements change
+  const elementsRef = useRef(elements);
   useEffect(() => {
+    elementsRef.current = elements;
+  }, [elements]);
+
+  const drawLines = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Filter and draw all line elements
-    elements.forEach(el => {
+    elementsRef.current.forEach(el => {
       if (el.type === 'line') {
         try {
           const points = JSON.parse(el.content);
@@ -77,9 +79,14 @@ export const WhiteboardCanvas: React.FC<WhiteboardCanvasProps> = ({
         }
       }
     });
+  };
+
+  // Redraw canvas lines whenever elements change
+  useEffect(() => {
+    drawLines();
   }, [elements]);
 
-  // Adjust canvas size to fit container
+  // Adjust canvas size to fit container (Only on mount and window resize)
   useEffect(() => {
     const resizeCanvas = () => {
       const canvas = canvasRef.current;
@@ -89,15 +96,18 @@ export const WhiteboardCanvas: React.FC<WhiteboardCanvasProps> = ({
       canvas.width = container.clientWidth;
       canvas.height = container.clientHeight;
       
-      // Force redraw
-      const temp = [...elements];
-      onElementsChange(temp);
+      // Redraw immediately since changing width/height clears canvas
+      drawLines();
     };
 
-    resizeCanvas();
+    const timer = setTimeout(resizeCanvas, 100);
     window.addEventListener('resize', resizeCanvas);
-    return () => window.removeEventListener('resize', resizeCanvas);
-  }, [elements]);
+    
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', resizeCanvas);
+    };
+  }, []);
 
   // ==========================================
   // CANVAS MOUSE DRAWING (Pencil)
