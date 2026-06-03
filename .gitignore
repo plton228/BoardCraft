@@ -1,22 +1,10 @@
-# Ignore everything in root by default
-/*
-
-# Allow specific files in root
-!/.gitignore
-!/README.md
-
-# Allow specific practical folders
-!/Практична 4/
-!/Практична 5/
-!/Практична 6/
-
-# Inside allowed directories, ignore standard stuff
-**/node_modules/
-**/dist/
-**/.env
-**/.env*.local
-**/.DS_Store
-**/Thumbs.db
-**/*.log
-**/.prisma/
-**/db.sqlite
+node_modules/
+client/node_modules/
+client/dist/
+server/node_modules/
+server/data/
+server/.env
+*.log
+.DS_Store
+.idea/
+.vscode/

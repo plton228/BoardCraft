@@ -1,0 +1,570 @@
+{
+  "info": {
+    "_postman_id": "7a3b37d4-cf62-43f1-bd12-f5619e075908",
+    "name": "Практична робота №7 — Павліченко Платон (1п-23)",
+    "description": "Офіційна колекція API-запитів для виконання практичної роботи №7 з курсу «Web-технології та Web-дизайн». Включає запити до Simple Grocery Store API та Trello API з автоматизованими тестами.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Перевірка статусу API",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://simple-grocery-store-api.glitch.me/status",
+          "protocol": "https",
+          "host": [
+            "simple-grocery-store-api",
+            "glitch",
+            "me"
+          ],
+          "path": [
+            "status"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2. Реєстрація API Клієнта",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = pm.response.json();",
+              "if (jsonData.accessToken) {",
+              "    pm.collectionVariables.set(\"accessToken\", jsonData.accessToken);",
+              "    console.log(\"Saved accessToken: \" + jsonData.accessToken);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"clientName\": \"Павліченко Платон Сергійович\",\n  \"clientEmail\": \"platon.pavlichenko.13@chdbc.edu.ua\"\n}"
+        },
+        "url": {
+          "raw": "https://simple-grocery-store-api.glitch.me/api-clients",
+          "protocol": "https",
+          "host": [
+            "simple-grocery-store-api",
+            "glitch",
+            "me"
+          ],
+          "path": [
+            "api-clients"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3. Отримання списку товарів (Фільтрація dairy)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://simple-grocery-store-api.glitch.me/products?category=dairy",
+          "protocol": "https",
+          "host": [
+            "simple-grocery-store-api",
+            "glitch",
+            "me"
+          ],
+          "path": [
+            "products"
+          ],
+          "query": [
+            {
+              "key": "category",
+              "value": "dairy"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4. Отримання окремого товару за ID (Path-змінна)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://simple-grocery-store-api.glitch.me/products/:productId",
+          "protocol": "https",
+          "host": [
+            "simple-grocery-store-api",
+            "glitch",
+            "me"
+          ],
+          "path": [
+            "products",
+            ":productId"
+          ],
+          "variable": [
+            {
+              "key": "productId",
+              "value": "4646"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "5. Створення нового кошика",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = pm.response.json();",
+              "if (jsonData.cartId) {",
+              "    pm.collectionVariables.set(\"cartID\", jsonData.cartId);",
+              "    console.log(\"Saved cartID: \" + jsonData.cartId);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://simple-grocery-store-api.glitch.me/carts",
+          "protocol": "https",
+          "host": [
+            "simple-grocery-store-api",
+            "glitch",
+            "me"
+          ],
+          "path": [
+            "carts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "6. Додавання товару в кошик",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = pm.response.json();",
+              "if (jsonData.itemId) {",
+              "    pm.collectionVariables.set(\"itemID\", jsonData.itemId);",
+              "    console.log(\"Saved itemID: \" + jsonData.itemId);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productId\": 4646\n}"
+        },
+        "url": {
+          "raw": "https://simple-grocery-store-api.glitch.me/carts/{{cartID}}/items",
+          "protocol": "https",
+          "host": [
+            "simple-grocery-store-api",
+            "glitch",
+            "me"
+          ],
+          "path": [
+            "carts",
+            "{{cartID}}",
+            "items"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "7. Отримання вмісту кошика",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://simple-grocery-store-api.glitch.me/carts/{{cartID}}/items",
+          "protocol": "https",
+          "host": [
+            "simple-grocery-store-api",
+            "glitch",
+            "me"
+          ],
+          "path": [
+            "carts",
+            "{{cartID}}",
+            "items"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "8. Зміна кількості товару в кошику (PATCH)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"quantity\": 3\n}"
+        },
+        "url": {
+          "raw": "https://simple-grocery-store-api.glitch.me/carts/{{cartID}}/items/{{itemID}}",
+          "protocol": "https",
+          "host": [
+            "simple-grocery-store-api",
+            "glitch",
+            "me"
+          ],
+          "path": [
+            "carts",
+            "{{cartID}}",
+            "items",
+            "{{itemID}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "9. Повна заміна товару в кошику (PUT)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productId\": 1224,\n  \"quantity\": 1\n}"
+        },
+        "url": {
+          "raw": "https://simple-grocery-store-api.glitch.me/carts/{{cartID}}/items/{{itemID}}",
+          "protocol": "https",
+          "host": [
+            "simple-grocery-store-api",
+            "glitch",
+            "me"
+          ],
+          "path": [
+            "carts",
+            "{{cartID}}",
+            "items",
+            "{{itemID}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "10. Оформлення нового замовлення",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = pm.response.json();",
+              "if (jsonData.orderId) {",
+              "    pm.collectionVariables.set(\"orderID\", jsonData.orderId);",
+              "    console.log(\"Saved orderID: \" + jsonData.orderId);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cartId\": \"{{cartID}}\",\n  \"customerName\": \"Павліченко Платон\"\n}"
+        },
+        "url": {
+          "raw": "https://simple-grocery-store-api.glitch.me/orders",
+          "protocol": "https",
+          "host": [
+            "simple-grocery-store-api",
+            "glitch",
+            "me"
+          ],
+          "path": [
+            "orders"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "11. Отримання списку всіх замовлень",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://simple-grocery-store-api.glitch.me/orders",
+          "protocol": "https",
+          "host": [
+            "simple-grocery-store-api",
+            "glitch",
+            "me"
+          ],
+          "path": [
+            "orders"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "12. Видалення замовлення (Самостійна робота)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "https://simple-grocery-store-api.glitch.me/orders/{{orderID}}",
+          "protocol": "https",
+          "host": [
+            "simple-grocery-store-api",
+            "glitch",
+            "me"
+          ],
+          "path": [
+            "orders",
+            "{{orderID}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "13. Trello - Створення нової дошки (Тести)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response board name matches requested\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.name).to.eql(\"Коледж-Практична-7\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://api.trello.com/1/boards?name=Коледж-Практична-7&defaultLists=false&key={{trelloKey}}&token={{trelloToken}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "trello",
+            "com"
+          ],
+          "path": [
+            "1",
+            "boards"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "Коледж-Практична-7"
+            },
+            {
+              "key": "defaultLists",
+              "value": "false"
+            },
+            {
+              "key": "key",
+              "value": "{{trelloKey}}"
+            },
+            {
+              "key": "token",
+              "value": "{{trelloToken}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "cartID",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "orderID",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "itemID",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "trelloKey",
+      "value": "your_trello_api_key_here",
+      "type": "string"
+    },
+    {
+      "key": "trelloToken",
+      "value": "your_trello_token_here",
+      "type": "string"
+    }
+  ]
+}
